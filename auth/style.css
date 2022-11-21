@@ -1,0 +1,70 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    object-fit: fill;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.form-signin .checkbox,
+.form-register .checkbox {
+    font-weight: 400;
+}
+
+.form-signin .form-floating:focus-within,
+.form-register .form-floating:focus-within {
+    z-index: 2;
+}
+
+.form-signin input[type="email"],
+.form-register input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"],
+.form-register input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.form-signin img,
+.form-register img {
+    width: 128px;
+    border-radius: 10px;
+}
+
+.form-register {
+    width: 100%;
+    max-width: 1200px;
+    padding: 15px;
+    margin: auto;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.logo-container {
+    display: flex;
+}
+
+.logo-title {
+    margin: 20px;
+}
