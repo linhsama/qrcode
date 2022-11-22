@@ -32,15 +32,4 @@
 <script src="../assets/vendor/bootstrap-5.1.3-dist/js/bootstrap.bundle.min.js"></script>
 <script src="../assets/vendor/jquery-3.6.1.min.js"></script>
 
-<!-- <?php if (isset($_GET['status']) && $_GET['status'] == 'success'):?>
-<script>
-alert('Thao tác thành công');
-</script>
-<?php endif?>
-<?php if (isset($_GET['status']) && $_GET['status'] == 'fail'):?>
-<script>
-alert('Thao tác thất bại');
-</script>
-<?php endif?> -->
-
 </html>

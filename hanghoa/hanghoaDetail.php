@@ -1,12 +1,10 @@
 <?php
-    require '../model/hanghoaClass.php';
-    require '../model/cososanxuatClass.php';
-    $hh = new hanghoaClass();
-    $cssx = new cososanxuatClass();
+    require '../model/modelClass.php';
+    $model = new modelClass();
     if(isset($_GET['id_hang_hoa'])){
         $id_hang_hoa = $_GET['id_hang_hoa'];
-        $list_cssx = $cssx->cososanxuatGetAll();
-        $obj_hanghoa = $hh->hanghoaGetById($id_hang_hoa);
+        $list_khu_vuc = $model->cososanxuatGetAll();
+        $obj_hanghoa = $model->hanghoaGetById($id_hang_hoa);
     }
   
 ?>
@@ -56,11 +54,21 @@
             <div class="card-body">
                 <h5 class="card-title">Thông tin <?=$obj_hanghoa->ten_hang_hoa?></h5>
                 <li class="card-text">Loại: <?=$obj_hanghoa->phan_loai == "1" ? "Nông sản" : "Thủy sản"?></li>
-                <li class="card-text">Cơ sở sản xuất: <?=$cssx->cososanxuatGetById($obj_hanghoa->id_cssx)->ten_cssx?>
+                <li class="card-text">Khu vực nuôi trồng:
+                    <?=$model->khuvucnuoitrongGetById($obj_hanghoa->id_khu_vuc)->ten_khu_vuc?>
+                </li>
+                <li class="card-text"> Nguồn gốc
+                    <ol>
+                        <li>sản xuất từ đâu</li>
+                        <li>trồng như nào</li>
+                        <li>thời gian trồng</li>
+                    </ol>
+                </li>
                 </li>
             </div>
             <div class="card-footer">
-                <small class="text-muted"><img src="../admin/hanghoa/<?=$obj_hanghoa->qr_image?>" alt=""></small>
+                <small class="text-muted"><img
+                        src="../admin/hanghoa/<?=$model->qrcodeGetByHangHoa($id_hang_hoa)->qr_image?>" alt=""></small>
             </div>
         </div>
     </div>

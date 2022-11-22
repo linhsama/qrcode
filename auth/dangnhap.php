@@ -20,17 +20,17 @@
 
 <body class="text-center">
     <main class="form-signin">
-        <form action="./authAction.php?req=dangnhap" method="post">
+        <form action="./action.php?req=dangnhap" method="post">
             <img class="logo" src="../assets/logo.png" alt="">
             <h1 class="h3 m-3 fw-bold">ĐĂNG NHẬP</h1>
 
             <div class="form-floating">
-                <input type="email" class="form-control" id="email" name="email" required="">
-                <label for="email">Email</label>
+                <input type="text" class="form-control" id="ten_tai_khoan" name="ten_tai_khoan" required="">
+                <label for="ten_tai_khoan">Tên đăng nhập</label>
             </div>
             <br>
             <div class="form-floating">
-                <input type="mat_khau" class="form-control" id="mat_khau" name="mat_khau" required="">
+                <input type="password" class="form-control" id="mat_khau" name="mat_khau" required="">
                 <label for="mat_khau">Mật khẩu</label>
             </div>
 

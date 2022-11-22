@@ -8,13 +8,28 @@
             </li>
             <br>
             <li class="nav-item">
-                <a class="nav-link" href="index.php?req=hanghoa">
-                    Quản lý sản phẩm
+                <a class="nav-link" href="index.php?req=cososanxuat">
+                    Quản lý cơ sở sản xuất
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="index.php?req=cososanxuat">
-                    Quản lý cơ sở đăng ký
+                <a class="nav-link" href="index.php?req=khuvucnuoitrong">
+                    Quản lý khu vực nuôi trồng
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="index.php?req=quytrinhnuoitrong">
+                    Quản lý quy trình nuôi trồng
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="index.php?req=nongthuysan">
+                    Quản lý nông thủy sản
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="index.php?req=taikhoan">
+                    Quản lý tài khoản
                 </a>
             </li>
             <br>
