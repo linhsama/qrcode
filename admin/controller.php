@@ -20,7 +20,7 @@
                 require 'taikhoan/index.php';
                 break;    
             case 'loi':
-                require 'loi.php';
+                require '../loi.php';
                 break;
             default:
                 echo "<script>location.href = 'index.php?req=loi'</script>";

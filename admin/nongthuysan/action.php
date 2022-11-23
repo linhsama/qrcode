@@ -9,7 +9,7 @@
     if(isset($_GET['req'])){
         switch($_GET['req']){
             case 'add':
-                echo $ten_hang_hoa = $_POST['ten_hang_hoa'];
+                echo $ten_nts = $_POST['ten_nts'];
                 $phan_loai = $_POST['phan_loai'];
                 $mo_ta = $_POST['mo_ta'];
                 $id_khu_vuc = $_POST['id_khu_vuc'];
@@ -24,58 +24,58 @@
                     mkdir($hinh_anh_path);
                 }
                 
-                $res = $model->hanghoaAdd($ten_hang_hoa, $phan_loai, $mo_ta, $id_khu_vuc);
+                $res = $model->nongthuysanAdd($ten_nts, $phan_loai, $mo_ta, $id_khu_vuc);
                 if($res == 0){
-                    header('location: ../index.php?req=hanghoa&status=fail');
+                    header('location: ../index.php?req=nongthuysan&status=fail');
                 }else{
                     $hinh_anh = $hinh_anh_path.$res.".png";
                     move_uploaded_file($_FILES['file']['tmp_name'],$hinh_anh);
                     echo $qr_image = $path.$res.".png";
-                    echo $qr_link = "http://$localIP/qrcode/hanghoa/hanghoaDetail.php?id_hang_hoa=$res";
+                    echo $qr_link = "http://$localIP/qrcode/nongthuysan/nongthuysanDetail.php?id_nts=$res";
                     QRcode::png($qr_link ,$qr_image,"h",3,3);
-                    $model->hanghoaAddHinhAnh($hinh_anh,$res);
+                    $model->nongthuysanAddHinhAnh($hinh_anh,$res);
                     $model->qrcodeAdd($qr_image,$qr_link,$res);
-                    header('location: ../index.php?req=hanghoa&status=success');
+                    header('location: ../index.php?req=nongthuysan&status=success');
                 }
                 break;
             case 'update':
-                echo $id_hang_hoa = $_POST['id_hang_hoa'];
-                echo $ten_hang_hoa = $_POST['ten_hang_hoa'];
+                echo $id_nts = $_POST['id_nts'];
+                echo $ten_nts = $_POST['ten_nts'];
                 echo $phan_loai = $_POST['phan_loai'];
                 echo $mo_ta = $_POST['mo_ta'];
                 echo $hinh_anh = $_POST['hinh_anh'];
                 echo $id_khu_vuc = $_POST['id_khu_vuc'];
 
                 if(strlen($_FILES['file']['tmp_name'])>0){
-                    $hinh_anh_path = "image/$id_hang_hoa.png";
+                    $hinh_anh_path = "image/$id_nts.png";
                     if(file_exists($hinh_anh_path)){
                         unlink($hinh_anh_path);
                     }
-                    $hinh_anh = "image/".$id_hang_hoa.".png";
+                    $hinh_anh = "image/".$id_nts.".png";
                     move_uploaded_file($_FILES['file']['tmp_name'],$hinh_anh);
                 }else{
                     $hinh_anh = $_POST['hinh_anh'];
                 }
-                $res = $model->hanghoaUpdate($id_hang_hoa, $ten_hang_hoa,$phan_loai,$mo_ta,$hinh_anh,$id_khu_vuc);
+                $res = $model->nongthuysanUpdate($id_nts, $ten_nts,$phan_loai,$mo_ta,$hinh_anh,$id_khu_vuc);
                 
-                header('location: ../index.php?req=hanghoa&status=success');
+                header('location: ../index.php?req=nongthuysan&status=success');
                 break;
             case 'delete':
-                $id_hang_hoa = $_GET['id_hang_hoa'];
-                $path = "./qr_image/$id_hang_hoa.png";
+                $id_nts = $_GET['id_nts'];
+                $path = "./qr_image/$id_nts.png";
                 if(file_exists($path)){
                     unlink($path);
                 }
-                $hinh_anh_path = "image/$id_hang_hoa.png";
+                $hinh_anh_path = "image/$id_nts.png";
                 if(file_exists($hinh_anh_path)){
                     unlink($hinh_anh_path);
                 }
                
-                $res = $model->hanghoaDelete($id_hang_hoa);
+                $res = $model->nongthuysanDelete($id_nts);
                 if($res){
-                    header('location: ../index.php?req=hanghoa&status=success');
+                    header('location: ../index.php?req=nongthuysan&status=success');
                 }else{
-                    header('location: ../index.php?req=hanghoa&status=fail');
+                    header('location: ../index.php?req=nongthuysan&status=fail');
                 }
                 break;
                 
@@ -104,17 +104,17 @@
                 $pdf->SetFont('DejaVuSansCondensed', '', 11);
                 foreach($list_qr as $item){
                     $pdf->SetX($x);
-                    $pdf->Cell(55,$j+=60,$item->ten_hang_hoa, 0,0);
-                    $pdf->Image('../hanghoa/'.$item->qr_image, 150, $i+=30,0,0,'PNG', $item->qr_link);
+                    $pdf->Cell(55,$j+=60,$item->ten_nts, 0,0);
+                    $pdf->Image('../nongthuysan/'.$item->qr_image, 150, $i+=30,0,0,'PNG', $item->qr_link);
                 }
 
                 $pdf->Output();
                 break;
 
             case 'in':
-                $id_hang_hoa = $_GET['id_hang_hoa'];
+                $id_nts = $_GET['id_nts'];
                 $model = new modelClass();
-                $obj_qr = $model->qrcodeGetByHangHoa($id_hang_hoa);
+                $obj_qr = $model->qrcodeGetBynongthuysan($id_nts);
                 $pdf = new tFPDF();
                 $pdf->AddPage();
                 $pdf->AddFont('DejaVuSansCondensed-Bold', '', 'DejaVuSansCondensed-Bold.ttf', true);
@@ -135,8 +135,8 @@
                 $pdf->AddFont('DejaVuSansCondensed', '', 'DejaVuSansCondensed.ttf', true);
                 $pdf->SetFont('DejaVuSansCondensed', '', 11);
                 $pdf->SetX($x);
-                $pdf->Cell(55,$j+=60,$obj_qr->ten_hang_hoa, 0,0);
-                $pdf->Image('../hanghoa/'.$obj_qr->qr_image, 150, $i+=30,0,0,'PNG', $obj_qr->qr_link);
+                $pdf->Cell(55,$j+=60,$obj_qr->ten_nts, 0,0);
+                $pdf->Image('../nongthuysan/'.$obj_qr->qr_image, 150, $i+=30,0,0,'PNG', $obj_qr->qr_link);
                 $pdf->Output();
                 break;
     

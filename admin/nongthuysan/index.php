@@ -16,9 +16,9 @@
 <div id="form-data">
     <form action="./nongthuysan/action.php?req=add" method="post" enctype="multipart/form-data">
         <div class="row mb-3">
-            <label for="ten_hang_hoa" class="col-sm-2 col-form-label">Tên nông thủy sản</label>
+            <label for="ten_nts" class="col-sm-2 col-form-label">Tên nông thủy sản</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="ten_hang_hoa" required="">
+                <input type="text" class="form-control" name="ten_nts" required="">
             </div>
         </div>
         <div class="row mb-3">
@@ -89,20 +89,20 @@
             <?php foreach($list_nongthuysan as $item):?>
             <tr>
                 <td><img src="./nongthuysan/<?=$item->hinh_anh?>" alt="" class="img-small"></td>
-                <td><?=$item->id_hang_hoa?></td>
-                <td><?=$item->ten_hang_hoa?></td>
+                <td><?=$item->id_nts?></td>
+                <td><?=$item->ten_nts?></td>
                 <td><?=$item->phan_loai == "1" ? "Nông sản" : "Thủy sản"?></td>
                 <td><?=$item->mo_ta?></td>
                 <td><?=$model->khuvucnuoitrongGetById($item->id_khu_vuc)->ten_khu_vuc?></td>
-                <td><img src="./nongthuysan/<?=$model->qrcodeGetBynongthuysan($item->id_hang_hoa)->qr_image?>" alt=""
+                <td><img src="./nongthuysan/<?=$model->qrcodeGetBynongthuysan($item->id_nts)->qr_image?>" alt=""
                         class="img-small"></td>
-                <td><a target="_blank" href="./nongthuysan/action.php?req=in&id_hang_hoa=<?=$item->id_hang_hoa?>"
+                <td><a target="_blank" href="./nongthuysan/action.php?req=in&id_nts=<?=$item->id_nts?>"
                         class="btn btn-sm btn-primary m-2">In mã QR</a>
-                    <a target="_blank" href="../nongthuysan/nongthuysanDetail.php?id_hang_hoa=<?=$item->id_hang_hoa?>"
+                    <a target="_blank" href="../nongthuysan/nongthuysan.php?id_nts=<?=$item->id_nts?>"
                         class="btn btn-sm btn-success m-2">Xem chi tiết</a>
-                    <button href="#" onclick="update(<?=$item->id_hang_hoa?>)" class="btn btn-sm btn-warning m-2">Cập
+                    <button href="#" onclick="update(<?=$item->id_nts?>)" class="btn btn-sm btn-warning m-2">Cập
                         nhật</button>
-                    <a href="./nongthuysan/action.php?req=delete&id_hang_hoa=<?=$item->id_hang_hoa?>"
+                    <a href="./nongthuysan/action.php?req=delete&id_nts=<?=$item->id_nts?>"
                         class="btn btn-sm btn-danger m-2" onclick="return confirm('Chắc chắn xóa')">Xóa</a>
                 </td>
             </tr>
@@ -113,9 +113,9 @@
 
 <script src="../assets/vendor/jquery-3.6.1.min.js"></script>
 <script>
-function update(id_hang_hoa) {
+function update(id_nts) {
     $.post("nongthuysan/update.php", {
-        id_hang_hoa: id_hang_hoa,
+        id_nts: id_nts,
     }, function(data, status) {
         $("#form-data").html(data);
     });

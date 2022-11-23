@@ -1,9 +1,13 @@
 <?php
 
+$k = "./connect/database.php";
 $s = "../connect/database.php";
-if (file_exists($s)) {
+if (file_exists($k)) {
+    $f = $k;
+} else if (file_exists($s)) {
     $f = $s;
-} else {
+} 
+else {
     $f = "../../connect/database.php";
 }
 include_once($f);
@@ -80,9 +84,59 @@ class modelClass extends Database {
         return $getAll->fetchAll();
     }
 
-    public function nongthuysanAdd($ten_hang_hoa,$phan_loai,$mo_ta,$id_khu_vuc) {
-        $add = $this->connect->prepare("INSERT INTO nongthuysan(ten_hang_hoa,phan_loai,mo_ta,id_khu_vuc) VALUES (?,?,?,?)");
-        $add->execute(array($ten_hang_hoa,$phan_loai,$mo_ta,$id_khu_vuc));
+    public function nongthuysanGetBy($phan_loai) {
+        $getAll = $this->connect->prepare("
+        SELECT *
+        FROM (
+            (((qrcode qr RIGHT JOIN nongthuysan nts ON qr.id_nts = nts.id_nts) 
+                            LEFT JOIN khuvucnuoitrong kvnt ON kvnt.id_khu_vuc = nts.id_khu_vuc)
+                            LEFT JOIN cososanxuat cssx ON cssx.id_cssx = kvnt.id_cssx)
+                            LEFT JOIN quytrinhnuoitrong qtnt ON qtnt.id_khu_vuc = kvnt.id_khu_vuc)
+        WHERE nts.phan_loai = ?
+        GROUP BY nts.id_nts
+        ");
+        $getAll->setFetchMode(PDO::FETCH_OBJ);
+        $getAll->execute(array($phan_loai));
+
+        return $getAll->fetchAll();
+    }
+
+    public function nongthuysanGetAllById($id_nts) {
+        $getAll = $this->connect->prepare("
+        SELECT *
+        FROM (
+            (((qrcode qr RIGHT JOIN nongthuysan nts ON qr.id_nts = nts.id_nts) 
+                            LEFT JOIN khuvucnuoitrong kvnt ON kvnt.id_khu_vuc = nts.id_khu_vuc)
+                            LEFT JOIN cososanxuat cssx ON cssx.id_cssx = kvnt.id_cssx)
+                            LEFT JOIN quytrinhnuoitrong qtnt ON qtnt.id_khu_vuc = kvnt.id_khu_vuc)
+        WHERE nts.id_nts = ?
+        GROUP BY nts.id_nts
+        ");
+        $getAll->setFetchMode(PDO::FETCH_OBJ);
+        $getAll->execute(array($id_nts));
+
+        return $getAll->fetch();
+    }
+
+    public function nongthuysanGetAllTable() {
+        $getAll = $this->connect->prepare("
+        SELECT *
+        FROM (
+            (((qrcode qr RIGHT JOIN nongthuysan nts ON qr.id_nts = nts.id_nts) 
+                            LEFT JOIN khuvucnuoitrong kvnt ON kvnt.id_khu_vuc = nts.id_khu_vuc)
+                            LEFT JOIN cososanxuat cssx ON cssx.id_cssx = kvnt.id_cssx)
+                            LEFT JOIN quytrinhnuoitrong qtnt ON qtnt.id_khu_vuc = kvnt.id_khu_vuc)
+        GROUP BY nts.id_nts
+        ");
+        $getAll->setFetchMode(PDO::FETCH_OBJ);
+        $getAll->execute();
+
+        return $getAll->fetchAll();
+    }
+
+    public function nongthuysanAdd($ten_nts,$phan_loai,$mo_ta,$id_khu_vuc) {
+        $add = $this->connect->prepare("INSERT INTO nongthuysan(ten_nts,phan_loai,mo_ta,id_khu_vuc) VALUES (?,?,?,?)");
+        $add->execute(array($ten_nts,$phan_loai,$mo_ta,$id_khu_vuc));
         if($add->rowCount()){
             return $this->connect->lastInsertId();
         }else{
@@ -90,32 +144,32 @@ class modelClass extends Database {
         }
     }
 
-    public function nongthuysanAddHinhAnh($hinh_anh,$id_hang_hoa) {
-        $update = $this->connect->prepare("UPDATE nongthuysan SET hinh_anh=? WHERE id_hang_hoa=?");
-        $update->execute(array($hinh_anh,$id_hang_hoa));
+    public function nongthuysanAddHinhAnh($hinh_anh,$id_nts) {
+        $update = $this->connect->prepare("UPDATE nongthuysan SET hinh_anh=? WHERE id_nts=?");
+        $update->execute(array($hinh_anh,$id_nts));
         return $update->rowCount();
     }
 
-    public function nongthuysanDelete($id_hang_hoa) {
-        $del = $this->connect->prepare("DELETE FROM nongthuysan WHERE id_hang_hoa=?");
+    public function nongthuysanDelete($id_nts) {
+        $del = $this->connect->prepare("DELETE FROM nongthuysan WHERE id_nts=?");
 
-        $del->execute(array($id_hang_hoa));
+        $del->execute(array($id_nts));
 
         return $del->rowCount();
     }
 
-    public function nongthuysanUpdate($id_hang_hoa, $ten_hang_hoa,$phan_loai,$mo_ta,$hinh_anh,$id_khu_vuc) {
-        $update = $this->connect->prepare("UPDATE nongthuysan SET ten_hang_hoa=?, phan_loai=?, mo_ta=?, hinh_anh=?, id_khu_vuc=? WHERE id_hang_hoa=?");
+    public function nongthuysanUpdate($id_nts, $ten_nts,$phan_loai,$mo_ta,$hinh_anh,$id_khu_vuc) {
+        $update = $this->connect->prepare("UPDATE nongthuysan SET ten_nts=?, phan_loai=?, mo_ta=?, hinh_anh=?, id_khu_vuc=? WHERE id_nts=?");
 
-        $update->execute(array($ten_hang_hoa,$phan_loai,$mo_ta,$hinh_anh,$id_khu_vuc, $id_hang_hoa));
+        $update->execute(array($ten_nts,$phan_loai,$mo_ta,$hinh_anh,$id_khu_vuc, $id_nts));
 
         return $update->rowCount();
     }
 
-    public function nongthuysanGetById($id_hang_hoa) {
-        $gettd = $this->connect->prepare("SELECT * FROM nongthuysan WHERE id_hang_hoa=?");
+    public function nongthuysanGetById($id_nts) {
+        $gettd = $this->connect->prepare("SELECT * FROM nongthuysan WHERE id_nts=?");
         $gettd->setFetchMode(PDO::FETCH_OBJ);
-        $gettd->execute(array($id_hang_hoa));
+        $gettd->execute(array($id_nts));
 
         return $gettd->fetch();
     }
@@ -171,24 +225,24 @@ class modelClass extends Database {
     }
     // qrcode
     public function qrcodeGetAll() {
-        $getAll = $this->connect->prepare("select * from qrcode inner join nongthuysan on qrcode.id_hang_hoa = nongthuysan.id_hang_hoa");
+        $getAll = $this->connect->prepare("select * from qrcode inner join nongthuysan on qrcode.id_nts = nongthuysan.id_nts");
         $getAll->setFetchMode(PDO::FETCH_OBJ);
         $getAll->execute();
 
         return $getAll->fetchAll();
     }
 
-    public function qrcodeGetBynongthuysan($id_hang_hoa) {
-        $getAll = $this->connect->prepare("select * from qrcode inner join nongthuysan on qrcode.id_hang_hoa = nongthuysan.id_hang_hoa where qrcode.id_hang_hoa=?");
+    public function qrcodeGetBynongthuysan($id_nts) {
+        $getAll = $this->connect->prepare("select * from qrcode inner join nongthuysan on qrcode.id_nts = nongthuysan.id_nts where qrcode.id_nts=?");
         $getAll->setFetchMode(PDO::FETCH_OBJ);
-        $getAll->execute(array($id_hang_hoa));
+        $getAll->execute(array($id_nts));
 
         return $getAll->fetch();
     }
 
-    public function qrcodeAdd($qr_image,$qr_link,$id_hang_hoa) {
-        $add = $this->connect->prepare("INSERT INTO qrcode(qr_image,qr_link,id_hang_hoa) VALUES (?,?,?)");
-        $add->execute(array($qr_image,$qr_link,$id_hang_hoa));
+    public function qrcodeAdd($qr_image,$qr_link,$id_nts) {
+        $add = $this->connect->prepare("INSERT INTO qrcode(qr_image,qr_link,id_nts) VALUES (?,?,?)");
+        $add->execute(array($qr_image,$qr_link,$id_nts));
         if($add->rowCount()){
             return $this->connect->lastInsertId();
         }else{
@@ -204,10 +258,10 @@ class modelClass extends Database {
         return $del->rowCount();
     }
 
-    public function qrcodeUpdate($id_qr_code, $qr_image,$qr_link,$id_hang_hoa) {
-        $update = $this->connect->prepare("UPDATE qrcode SET qr_image=?,qr_link=?,id_hang_hoa=? WHERE id_qr_code=?");
+    public function qrcodeUpdate($id_qr_code, $qr_image,$qr_link,$id_nts) {
+        $update = $this->connect->prepare("UPDATE qrcode SET qr_image=?,qr_link=?,id_nts=? WHERE id_qr_code=?");
 
-        $update->execute(array($qr_image,$qr_link,$id_hang_hoa, $id_qr_code));
+        $update->execute(array($qr_image,$qr_link,$id_nts, $id_qr_code));
 
         return $update->rowCount();
     }

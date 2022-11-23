@@ -7,7 +7,7 @@
     <?php if(isset($_SESSION['admin'])):?>
     <div class="navbar-nav">
         <div class="nav-item text-nowrap">
-            <a class="nav-link px-3" href="../auth/authAction.php?req=dangxuat">Xin chào <?=$_SESSION['admin']?> | Đăng
+            <a class="nav-link px-3" href="../auth/action.php?req=dangxuat">Xin chào <?=$_SESSION['admin']?> | Đăng
                 xuất</a>
         </div>
     </div>
